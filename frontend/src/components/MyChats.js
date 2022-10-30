@@ -3,18 +3,18 @@ import { ChatState } from "../Context/ChatProvider";
 import { useToast, Box, Button, Stack, Text } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import ChatLoading from "./ChatLoading";
+import GroupChatModel from "./misc/GroupChatModel";
 import axios from "axios";
 
 import { getSender } from "../config/ChatLogics";
 
-const MyChats = () => {
+const MyChats = ({ fetchAgain }) => {
   const [loggedUser, setLoggedUser] = useState();
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
 
   const toast = useToast();
 
   const fetchChats = async () => {
-    console.log("data: ");
     try {
       const config = {
         headers: {
@@ -39,7 +39,7 @@ const MyChats = () => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-  }, []);
+  }, [fetchAgain]);
 
   return (
     <Box
@@ -55,22 +55,25 @@ const MyChats = () => {
       <Box
         pb={3}
         px={3}
-        fontSize={{ base: "28px", md: "30px" }}
-        fontFamily="Work sans"
+        fontSize={{ base: "10px", md: "15px" }}
+        fontFamily="Roboto"
         display="flex"
         width="100%"
         justifyContent="space-between"
         alignItems="center"
+        fontWeight={"bold"}
       >
         MyChats
-        <Button
-          display="flex"
-          fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-          rightIcon={<AddIcon />}
-        >
-          {" "}
-          New Group Chat{" "}
-        </Button>
+        <GroupChatModel>
+          <Button
+            display="flex"
+            fontSize={{ base: "10px", sm: "15px" }}
+            rightIcon={<AddIcon />}
+          >
+            {" "}
+            New Group Chat{" "}
+          </Button>
+        </GroupChatModel>
       </Box>
       <Box
         display="flex"
